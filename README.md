@@ -1,4 +1,4 @@
 trello-wrapper
 ==============
 
-This is a PHP wrapper for the Trello API
+This is soon to be a PHP wrapper for the Trello API
