@@ -15,17 +15,15 @@ class Board {
     protected $url;
     protected $shortUrl;
     protected $preferences;
-    protected $keys;
 
 
     public function __construct() {
         $this->preferences = new BoardPreferences();
-        $this->keys = new ApiKeys();
     }
 
     public function retrieveBoard($id) {
         try {
-            $response = http_get('https://api.trello.com/1/board/' . $id . '?' . $this->keys->getApiKey());
+            $response = http_get('https://api.trello.com/1/board/' . $id . '?' . ApiKeys::getApiKey());
         }
         catch(exception $error) {
             //TODO: handle this
@@ -37,7 +35,7 @@ class Board {
         $this->name             = $response['name'];
         $this->description      = $response['desc'];
         $this->descriptionData  = $response['descData'];
-        $this->isClosed         = (bool) $response['closed'];
+        $this->isClosed         = ($response['closed'] == 'true') ? true : false;
         $this->organizationId   = $response['idOrganization'];
         $this->pinned           = $response['pinned'];
         $this->url              = $response['url'];

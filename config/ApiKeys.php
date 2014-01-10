@@ -10,7 +10,7 @@ class ApiKeys {
     /**
      * @return string
      */
-    public function getApiKey()
+    public static function getApiKey()
     {
         return $this->apiKey;
     }
@@ -18,7 +18,7 @@ class ApiKeys {
     /**
      * @return string
      */
-    public function getSecret()
+    public static function getSecret()
     {
         return $this->secret;
     }
