@@ -23,7 +23,7 @@ class Board {
 
     public function retrieveBoard($id) {
         try {
-            $response = http_get('https://api.trello.com/1/board/' . $id . '?' . ApiKeys::getApiKey());
+            $response = http_get('https://api.trello.com/1/board/' . $id . '?key=' . ApiKeys::getApiKey());
         }
         catch(exception $error) {
             //TODO: handle this
