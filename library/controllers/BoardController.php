@@ -1,10 +1,10 @@
 <?php
 
-namespace library;
+namespace library\controllers;
 
 use config\ApiKeys;
 
-class Board {
+class BoardController {
     protected $name;
     protected $id;
     protected $description;
@@ -15,10 +15,12 @@ class Board {
     protected $url;
     protected $shortUrl;
     protected $preferences;
+    protected $board;
 
 
     public function __construct() {
         $this->preferences = new BoardPreferences();
+        $this->board = new Board();
     }
 
     public function retrieveBoard($id) {
@@ -32,15 +34,15 @@ class Board {
     }
 
     private function parseResponse($response) {
-        $this->id               = $response['id'];
-        $this->name             = $response['name'];
-        $this->description      = $response['desc'];
-        $this->descriptionData  = $response['descData'];
-        $this->isClosed         = ($response['closed'] == 'true') ? true : false;
-        $this->organizationId   = $response['idOrganization'];
-        $this->pinned           = $response['pinned'];
-        $this->url              = $response['url'];
-        $this->shortUrl         = $response['shortUrl'];
+        $this->board->setId($response['id']);
+        $this->board->setName($response['name']);
+        $this->board->setDescription($response['desc']);
+        $this->board->setDescriptionData($response['descData']);
+        $this->board->setIsClosed(($response['closed'] == 'true') ? true : false);
+        $this->board->setOrganizationId($response['idOrganization']);
+        $this->board->setPinned($response['pinned']);
+        $this->board->setUrl($response['url']);
+        $this->board->setShortUrl($response['shortUrl']);
 
         $this->preferences->populate($response['prefs']);
     }
@@ -135,5 +137,13 @@ class Board {
         $this->shortUrl = $short_url;
     }
 
+    public function getBoard() {
+        return $this->board;
+    }
+
+    public function setBoard($board) {
+        $this->board = $board;
+    }
+
     //endregion
-} 
+}

@@ -1,8 +1,9 @@
 <?php
 
-namespace library;
+namespace library\controllers;
+use library\models\Board;
 
-class BoardPreferences {
+class BoardPreferencesController {
     protected $permissionLevel;
     protected $voting;
     protected $comments;
@@ -20,9 +21,9 @@ class BoardPreferences {
     protected $canBePrivate;
     protected $canInvite;
 
-    public function populate(array $prefs) {
+    public function populate(array $prefs, Board $board) {
     $boolArray = array('canBePublic', 'canBeOrg', 'canBePrivate', 'canInvite');
-    
+
       foreach ($prefs as $key => $value) {
         if (in_array($key, $boolArray)) {
           $this->setBoolean($key, $value);
@@ -32,9 +33,9 @@ class BoardPreferences {
         }
       }
     }
-    
+
     protected function setBoolean($key, $value) {
-      swich(strtolower($value) {
+      switch(strtolower($value)) {
         case 'true':
           $this->$key = true;
           break;
@@ -46,4 +47,4 @@ class BoardPreferences {
       }
     }
 
-} 
+}

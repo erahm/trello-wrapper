@@ -4,24 +4,20 @@ namespace config;
 
 class ApiKeys {
 
-    private  $apiKey = 'insert your api key here';
-    private  $secret = 'insert your secret key here';
+    const  API_KEY = 'insert your api key here';
+    const SECRET = 'insert your secret key here';
 
     /**
      * @return string
      */
-    public static function getApiKey()
-    {
-        return $this->apiKey;
+    public static function getApiKey() {
+        return self::API_KEY;
     }
 
     /**
      * @return string
      */
-    public static function getSecret()
-    {
-        return $this->secret;
+    public static function getSecret() {
+        return self::SECRET;
     }
-
-
 } 
