@@ -3,24 +3,16 @@
 namespace library\controllers;
 
 use config\ApiKeys;
+use library\models;
 
 class BoardController {
-    protected $name;
-    protected $id;
-    protected $description;
-    protected $descriptionData;
-    protected $isClosed;
-    protected $organizationId;
-    protected $pinned;
-    protected $url;
-    protected $shortUrl;
-    protected $preferences;
     protected $board;
+    protected $preferencesController;
 
 
     public function __construct() {
-        $this->preferences = new BoardPreferences();
-        $this->board = new Board();
+        $this->board = new models\Board();
+        $this->preferencesController = new BoardPreferencesController();
     }
 
     public function retrieveBoard($id) {
@@ -28,7 +20,7 @@ class BoardController {
             $response = http_get('https://api.trello.com/1/board/' . $id . '?key=' . ApiKeys::getApiKey());
             $this->parseResponse($response);
         }
-        catch(exception $error) {
+        catch (exception $error) {
             //TODO: handle this
         }
     }
@@ -44,97 +36,7 @@ class BoardController {
         $this->board->setUrl($response['url']);
         $this->board->setShortUrl($response['shortUrl']);
 
-        $this->preferences->populate($response['prefs']);
-    }
-
-    //region getters/setters
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $url
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIsClosed()
-    {
-        return $this->isClosed;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOrganizationId()
-    {
-        return $this->organizationId;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPreferences()
-    {
-        return $this->preferences;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getShortUrl()
-    {
-        return $this->shortUrl;
-    }
-
-    /**
-     * @param mixed $short_url
-     */
-    public function setShortUrl($short_url)
-    {
-        $this->shortUrl = $short_url;
+        $this->board->setPreferences($this->preferencesController->populate(($response['prefs'])));
     }
 
     public function getBoard() {
@@ -145,5 +47,4 @@ class BoardController {
         $this->board = $board;
     }
 
-    //endregion
 }
