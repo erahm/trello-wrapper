@@ -16,31 +16,26 @@ class BoardController {
     }
 
     public function retrieveBoard($id, $cards = true) {
-        $params         = array();
-        $params['key']  = ApiKeys::getApiKey();
-        
-        if($cards){
+        $params = array();
+        $params['key'] = ApiKeys::getApiKey();
+
+        if ($cards) {
             $params['cards'] = 'all';
         }
 
         $query = http_build_query($params);
-
         $url = 'https://api.trello.com/1/board/' . $id . '?' . $query;
-        try {
-            /**
-            * handling the issue of http_get not being enabled in php.ini
-            * It will still need a different approach since shared hosting can 
-            * disable file_get_contents()
-            */
 
-            if(function_exists('http_get')){
+        try {
+            if (function_exists('http_get')) {
                 $response = http_get($url);
-            } else {
+            }
+            else {
                 $response = json_decode(file_get_contents($url), 'array');
             }
 
             $this->parseResponse($response);
-        } 
+        }
         catch (exception $error) {
             //TODO: handle this
         }
@@ -59,12 +54,11 @@ class BoardController {
 
         $this->board->setPreferences($this->preferencesController->populate(($response['prefs'])));
 
-        if(!empty($response['cards'])){
-            foreach($response['cards'] as $card){
-                $cards_objs[] = new models\Card($card);
-            }
+        if (!empty($response['cards'])) {
+            $cardController = new CardController();
+            $cards = $cardController->populateCards($response['cards']);
 
-            $this->board->setCards($cards_objs);
+            $this->board->setCards($cards);
         }
     }
 
