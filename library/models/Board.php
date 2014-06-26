@@ -13,6 +13,7 @@ class Board {
     protected $url;
     protected $shortUrl;
     protected $preferences;
+    protected $cards;
 
     public function __construct() {
         $this->preferences = new BoardPreferences();
@@ -158,7 +159,15 @@ class Board {
         return $this->url;
     }
 
+    public function getCards()
+    {
+        return $this->cards;
+    }
 
+    public function setCards($cards)
+    {
+        $this->cards = $cards;
+    }
 }
 
 
