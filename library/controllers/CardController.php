@@ -10,7 +10,7 @@ class CardController {
         $cardArray = array();
 
         foreach ($cards as $card) {
-            $cardArray = $this->populateCardData($card);
+            $cardArray[] = $this->populateCardData($card);
         }
 
         return $cardArray;
