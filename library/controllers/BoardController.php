@@ -43,7 +43,7 @@ class BoardController {
             }
         }
         catch (Exception $error) {
-            echo $error->getMessage();
+            echo json_encode(array('error' => $error->getMessage()));
             Exit();
         }
     }
