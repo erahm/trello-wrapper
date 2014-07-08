@@ -1,8 +1,7 @@
 <?PHP
-
 namespace library\controllers;
 
-use \library\models;
+use library\models;
 
 class CardController {
 

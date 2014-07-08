@@ -35,7 +35,7 @@ class Card {
      * @param mixed $dateLastActivity
      */
     public function setDateLastActivity($dateLastActivity) {
-        $this->dateLastActivity = $dateLastActivity;
+        $this->dateLastActivity = $dateLastActivity; 
     }
 
     /**
@@ -43,6 +43,13 @@ class Card {
      */
     public function getDateLastActivity() {
         return $this->dateLastActivity;
+    }
+
+    /**
+    * @param mixed 
+    */
+    public function setDataLastActivity($dateLastActivity) {
+        $this->dateLastActivity = $dateLastActivity;
     }
 
     /**

@@ -29,15 +29,22 @@ class BoardController {
         try {
             if (function_exists('http_get')) {
                 $response = http_get($url);
+                $this->parseResponse($response);
             }
             else {
-                $response = json_decode(file_get_contents($url), 'array');
+                $content = CallController::fetch($url);
+                if($content['code'] == 200){
+                    $response = json_decode($content['result'], 'array');
+                    $this->parseResponse($response);
+                } else {
+                    // other than 200, show returning string
+                    echo json_encode(array('error' => $content['result']));
+                }
             }
-
-            $this->parseResponse($response);
         }
-        catch (exception $error) {
-            //TODO: handle this
+        catch (Exception $error) {
+            echo json_encode(array('error' => $error->getMessage()));
+            Exit();
         }
     }
 
